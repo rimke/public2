@@ -1,0 +1,35 @@
+
+
+<div class="container ET_EXT">
+	<canvas et="" id="hcv1" width="1024px" height="300px"></canvas>
+	<p>
+		<a href="javascript:line005050()">line005050</a>
+		<a href="javascript:arc10050150360()">arc10050150360</a>
+		<a href="javascript:arc5050200360()">arc5050200360</a>
+		<a href="javascript:rect10501515()">rect10501515</a>
+		<a href="javascript:strokeText()">strokeText</a>
+		<a href="javascript:draw2d()">draw2d</a>
+	</p>
+</div>
+<script>
+	var w = $('#hcv1').width()
+	,h = $('#hcv1').height()
+	,x=w/3
+	,y=h/3;
+	function line005050(){ hcv1.line(ET.random.int(x),ET.random.int(y), 50, 50, {lineWidth:5, strokeStyle:'#'+ET.random.Hex(6)}) }
+	function arc10050150360(){ hcv1.arc(ET.random.int(x),ET.random.int(y), 15+ET.random.int(30), 0, 360); }
+	function rect10501515(){ hcv1.rect(ET.random.int(x),ET.random.int(y), 15+ET.random.int(30), 15+ET.random.int(30), {fillStyle:'#'+ET.random.Hex(6), strokeStyle:'#'+ET.random.Hex(6)}); }
+	function arc5050200360(){ hcv1.arc(ET.random.int(x),ET.random.int(y), 15+ET.random.int(50), 0, 360, null, {fillStyle:'#'+ET.random.Hex(6), strokeStyle:'#'+ET.random.Hex(6)}); }
+	
+	function strokeText(){ hcv1.strokeText('EtSoftware', ET.random.int(x), ET.random.int(y), null, 
+		{
+			'font':(ET.random.int(10)+10)+'px Georgia'
+			,'strokeStyle':'#'+ET.random.Hex(6)
+		});
+	}
+	function draw2d(){
+		hcv1.draw2d(function(){this.moveTo(ET.random.int(200),ET.random.int(200)); this.lineTo(ET.random.int(200),ET.random.int(200)); }, null, true);
+	}
+
+
+</script>

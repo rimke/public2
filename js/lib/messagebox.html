@@ -1,0 +1,115 @@
+<style>
+	.itm{overflow: hidden;margin:8px;margin:0.08rem;}
+</style>
+<div class="container">
+	<h1>Mask</h1>
+	<div class="itm">
+		<pre> ET.messagebox.mask(); </pre>
+		<input type="button" value="Run" onclick="ET.messagebox.mask()" >
+	</div>
+	<div class="itm">
+		<pre> ET.messagebox.mask(null, 'press esc for exit'); </pre>
+		<input type="button" value="Run" onclick="ET.messagebox.mask(null, 'press esc for exit')" >
+	</div>
+
+	<div class="itm">
+		<pre > ET.messagebox.mask(null, null, {'onload':function(){ alert('ok'); this.destroy();} }); </pre>
+		<table et>
+			<thead>
+				<tr>
+					<th>参数</th>
+					<th>说明</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr> <td>onresize</td> <td>改变大小时触发</td> </tr>
+				<tr> <td>onload</td> <td>加载完成后触发</td> </tr>
+				<tr> <td>ondestroy</td> <td>销毁后触发</td></tr>
+				<tr> <td>onshow</td> <td>显示时触发</td></tr>
+			</tbody>
+		</table>
+		<input type="button" value="Run" onclick="ET.messagebox.mask(null, null, {'onload':function(){ alert('ok'); this.destroy();} })" >
+	</div>
+
+	<div class="itm">
+		<pre id="hpre"> ET.messagebox.mask(hpre, 'press esc for exit'); </pre>
+		<input type="button" value="Run" onclick="ET.messagebox.mask(hpre, 'press esc for exit')" >
+	</div>
+
+
+	<h1>Dialog</h1>
+	<div class="itm">
+		<pre> 
+/**
+ * 对话框
+ * @param  {[type]} txt    显示文本或对象
+ * @param  {[type]} tit    显示标题
+ * @param  {[type]} events 响应事件
+ * @param  {[type]} target 目标
+ * @param  {[type]} buttons 热键组合 默认为BUTTON_OK
+ * @return {[type]}        [description]
+ * ET.messagebox.dialog:function(txt, tit, events, target, buttons); 
+ */			
+ET.messagebox.dialog(
+	'hello!', 
+	null, 
+	{
+		'ondestroy':function(){
+			alert(this.buttons);
+		}
+	}, 
+	null, 
+	ET.messagebox.BUTTON_NO|ET.messagebox.BUTTON_OK|ET.messagebox.BUTTON_CANCEL
+);
+</pre>
+		<p>events支持事件说明：</p>
+		<table et>
+			<thead>
+				<tr>
+					<th>参数</th>
+					<th>说明</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr> <td>onok</td> <td>点击OK按键时触发</td> </tr>
+				<tr> <td>onno</td> <td>点击No按键时触发</td> </tr>
+				<tr> <td>oncancel</td> <td>点击Cancel按键时触发</td></tr>
+				<tr> <td>onload</td> <td>窗口加载完成后执行</td> </tr>
+				<tr> <td>ondestroy</td> <td>窗口被销毁时触发</td></tr>
+			</tbody>
+		</table>
+		<p>buttons可选参数说明：</p>
+		<table et>
+			<thead>
+				<tr>
+					<th>参数</th>
+					<th>说明</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr> <td>BUTTON_NO</td> <td>显示NO按键</td> </tr>
+				<tr> <td>BUTTON_OK</td> <td>显示OK按键</td> </tr>
+				<tr> <td>BUTTON_CANCEL</td> <td>显示Cancel按键</td> </tr>
+			</tbody>
+		</table>
+		<input type="button" value="Run" onclick="ET.messagebox.dialog('hello!', null, {'ondestroy':function(){alert(this.buttons);}}, null, ET.messagebox.BUTTON_NO|ET.messagebox.BUTTON_OK|ET.messagebox.BUTTON_CANCEL);" >
+	</div>
+
+	<h1>Show</h1>
+	<div class="itm">
+		<pre> 
+/**
+ * 显示对话框
+ * @param  {[type]}   obj      显示文本或对象
+ * @param  {Function} callback 回调函数，默认为空
+ * @param  {[type]}   target   作用域对象
+ * @return {[type]}            返回为一个对象
+ */
+ET.messagebox.show('Please select button.', function(){ alert(this.buttons);}, null)
+</pre>
+		<input type="button" 
+		value="Run" 
+		onclick="ET.messagebox.show('Please select button.', function(){ alert(this.buttons);}, null)" 
+		>
+	</div>
+</div>

@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <title>Etsoftware Test</title>
+        <link rel=stylesheet type=text/css href="https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/mancard/css/card_min_dee38e45.css">
+        <!--[if IE]>
+        <script type="text/javascript" src="/public2/js/jquery-1.12.4.min.js"></script>        
+        <![endif]-->
+        <script type="text/javascript" src="/public2/js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="/public2/js/EtSoftWare.6.0.js?0"></script>    
+
+        <style type="text/css" media="screen">
+            body{background-color: #fff;}
+            .b2{height: 200px;}
+        </style>
+    </head>
+    <body>
+        
+<div class="container">
+    <div class="b1"></div>
+    <div class="b2"></div>
+    <div class="b3"></div>
+    <div class="b4"></div>
+    <div class="b5"></div>
+</div>
+<script>
+
+ET.loadLib('progressbar');
+var b1= ET.progressbar.create()
+,b2=ET.progressbar.create(null,null,null,null, 1)
+,b3=ET.progressbar.create(null,null,null,null, 2)
+,b4=ET.progressbar.create(null,null,null,null, 3)
+;
+$('.b1').append(b1);
+$('.b2').append(b2);
+$('.b3').append(b3);
+$('.b4').append(b4);
+
+
+//setInterval(function(){b1.setPos(); b2.setPos(); }, 50);
+</script>
+
+
+    </body>
+</html>

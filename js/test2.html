@@ -1,0 +1,184 @@
+<div class="main"></div>
+<style>
+html,body{width: 100%;height: 100%;}
+    .main{background: url(/public/images/1564799115.jpg); position: absolute; width: 100%; top: 0px; bottom: 0px; background-size: 100% 100%; -moz-background-size: 100% 100%;
+    }
+    .dev{font-size: 0.7rem; color:#fff; position: absolute; bottom: 0px; overflow: hidden; width: 100%; padding: 0.4rem; }
+    .dev>.details{padding: 0.4rem; overflow: hidden; clear: both; display: block; background: #292828; opacity: 0.5; }
+    .dev>.details>table{width: 100%; overflow: hidden; margin-bottom: 0.9rem; }
+    .dev>.details>table .feilds{ padding: 0.6rem 0px;}
+    .dev>.details>table .itm{overflow: hidden; border-bottom: 1px solid #807e7e; width: 49%; display: block; float: left; }
+    .dev>.details>table .itm>dl{list-style-type: none;display: block;float: left; overflow: hidden; height: 1.2rem; }
+    .dev>.details>table .itm>dl>dt,
+    .dev>.details>table .itm>dl>dd{float: left;display: block;padding:0.1rem;}
+    .dev>.details>table .itm>dl>dt{    color: #bbb;}
+    .dev>.details>table .itm>dl>dd{font-size: 0.85rem; color: #00ffbc;}
+    .dev>.msg{margin: -1.35rem 0.5rem; display: block; clear: both; position: absolute; text-shadow: 0px 0px 0.65rem #fff;; }
+    .dev>.normal{color: green; }
+    .dev>.error{color: red; }
+    .dev>.tools{}
+    .dev>.tools>a{padding: 0.3rem; border: 0.0525rem solid #f3f3f3; border-radius: 0.35rem; background: #99acf9; color: #fff; margin: 0.1rem; display: inline-block; }
+
+</style>
+<div class="dev">
+    <div class="details">
+        <table cellpadding="0" cellspacing="0" >
+            <thead>
+                <tr>
+                    <td>
+                        <script>document.write(data.title)</script>
+                        (
+                        <script>document.write(data.did)</script>
+                        )
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="feilds"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="msg normal">运行正常</div>
+    <div class="tools"></div>
+</div>
+
+<script type="text/javascript">
+    if(config ){
+        if(config.feilds && config.feilds.length){
+            for(var i=0; i<config.feilds.length;i++){ add_tbl_row(config.feilds[i]); }
+        }
+    }
+    if(data){
+        if(data.conf){
+            if(data.conf.event && data.conf.event.length>0){
+                for(var i=0; i<data.conf.event.length;i++){ add_dev_event(data.conf.event[i]); }
+            }
+        }
+    }
+    /**
+     * 添加数据行
+     * @param {[type]} $data [description]
+     */
+    function add_tbl_row(data){
+        var tbl=$('.details>table')[0]  ,div=ET.ce('div', {'class':'itm'})
+        ,dl=ET.ce('dl') ,dt=ET.ce('dt', {'innerHTML':data.label }) ,dd=ET.ce('dd', {'innerHTML':'-'});
+        $(dl).append([dt,dd]);
+        dl.data=data;
+        tbl.ddl=tbl.ddl?tbl.ddl:[];
+        tbl.ddl.push(dl);
+        $('.feilds').append( $(div).append(dl) );
+    }
+    /**
+     * 添加控制事件
+     * @param {[type]} data [description]
+     */
+    function add_dev_event(data){
+        var a = ET.ce('a', {'innerHTML':data.text, 'href':'javascript:void(0)'});
+        a.data=data;
+        a.onclick=event_click;
+        $('.tools').append(a);
+    }
+    
+    function event_click(){
+        event.preventDefault();
+        var _me=this, edata = _me.data
+        // ,eurl='/index.php/Mobile/Device/devexec/id/4/eid/'+edata.value+'.html'
+        ,eurl='/index.php/Mobile/Device/devexec/eid/'+edata.value+'.html'
+        ,params=[];
+        if(_me.statu){ET.messagebox.show('正在执行中...'); return; }
+        if(edata.params){
+            for(var i=0; i<edata.params;i++){
+                var v = prompt( $(_me).html()+'['+i+']' );
+                if(v===null){ return ; }
+                if(!v){ continue; }
+                params.push( v );
+            }
+        }
+        $.ajax({
+            type:'get'
+            ,url:eurl
+            ,data:{params:params}
+            ,success:function(e){
+                if(typeof e!=='object'){e=ET.execJS(e); }                                
+                if(e && e.errcode!==undefined){
+                    ET.messagebox.show(e.errmsg);
+                    _me.statu=false;
+                }
+            }
+        });
+    }
+    /**
+     * 填充实时数据
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+     */
+    function fillData(data){
+        var tbl=$('.details>table')[0];
+        if(!tbl || !tbl.ddl){ return ; }
+        for (var i = 0; i <tbl.ddl.length ; i++) {
+            var dl= tbl.ddl[i];
+            if(dl.data && dl.data.apiName ){
+                var sync = "";
+                if( dl.data.apiName.indexOf('温度')>-1 ){
+                    sync=' °C';
+                }else if( dl.data.apiName.indexOf('水量')>-1 ){
+                    sync=' T';
+                }else if( dl.data.apiName.indexOf('信号')>-1 ){
+                    sync=' db';
+                }else if( dl.data.apiName.indexOf('电量')>-1 ){
+                    sync=' kw/h';
+                }
+                for(var j=0; j<data.log.data.length; j++){
+                    var dat = data.log.data[j];
+                    if(dat.name==dl.data.apiName){
+                        $(dl).find('>dd').html(dat.value+sync);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        for(var j=0; j<data.log.data.length; j++){
+            if( data.log.data[j].name.indexOf('故障代码')>-1 ){
+                var d = data.log.data[j];
+                d.value*=1;
+                statu( {'errcode':(d.value==90?0:d.value), 'data':(d.value==90?'设备运行正常！':'设备发生故障，请及时联系管理员！')} );
+                break;
+            }
+        }
+
+    }
+    // {'errcode':0, 'data':''}
+    function statu(data){
+        if(data.errcode==0){
+            $('.dev>.msg').removeClass('error').addClass('normal').html('');
+        }else{
+            $('.dev>.msg').removeClass('normal').addClass('error').html("Err:");
+        }
+        $('.dev>.msg').append(data.data+'('+data.errcode+')');
+    }
+    function runtime(){
+        $.ajax({
+            type:'get'
+            ,url:'/index.php/Mobile/Device/devrt/id/'+data.id+'.html'
+            ,dataType:'json'
+            ,success:function(e){
+                if( typeof(e)=='string'){e=ET.execJS(e); }
+                if(e.data && e.data.length>0){
+                    var dat = e.data[0];
+                    dat.log=ET.execJS( dat.log );
+                    fillData(dat);
+                }else if(e.errcode){
+                    e.data = e.errmsg;
+                    statu(e);
+                }
+            }
+            ,complete:function(){
+                setTimeout( function(){runtime();}, 1000);           
+            }
+        })        
+    }
+    $(function(){ setTimeout( function(){runtime();}, 1000); });
+</script>

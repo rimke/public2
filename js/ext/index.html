@@ -1,0 +1,19 @@
+<div class="container ET_EXT">
+<ul>
+	<li><a href="canvas.html" >canvas.ext.js</a></li>
+	<li><a href="svg.html" >svg.ext.js</a></li>
+</ul>
+</div>
+<script type="text/javascript">
+	var hdiv=$('.ET_EXT');
+	hdiv.find('>ul>li>a').each(function(){
+		$(this).click(function(e) {
+			ET.event.stopPropagation(e);
+			ET.event.preventDefault(e);
+			var c=$(this).parent().find('code');
+			if(c.length)return ;
+			var url= ET.extPath+ $(this).attr('href');
+			ETAPP.setSection(url, $(this).html(), null);
+		});
+	});
+</script>

@@ -1,0 +1,54 @@
+<style>
+	svg{border:1px solid #888;}
+</style>
+
+<div class="container ET_EXT">
+	<svg et="" id="hsvg" xmlns="http://www.w3.org/2000/svg" style="height: 300px; width: 500px; ">
+	</svg>
+	<p>
+		<a href="javascript:path()" onclick="ET.messagebox.show(path.toString())">path</a>
+		<a href="javascript:path2()">path2</a>
+		<a href="javascript:circle()">circle</a>
+		<a href="javascript:rect()">rect</a>
+	</p>
+	<fieldset>
+		<legend>G</legend>
+		<p>
+			<a href="javascript:path(g)">path</a>
+			<a href="javascript:path2(g)">path2</a>
+			<a href="javascript:circle(g)">circle</a>
+			<a href="javascript:rect(g)">rect</a>
+		</p>
+	</fieldset>
+</div>
+<script>
+	var w = $('#hsvg').width()
+	,h = $('#hsvg').height()
+	,x=w/2 ,y=h/2, g;
+	$(function(){
+		g=hsvg.addg();
+		hsvg.addrulerVH(50, h-50, 300, 200);
+		// hsvg.addrulerH(50, h-50, 300, 200);
+		// hsvg.addrulerV(50,0,0, h-50);
+	})
+	function randomPos(){return [ET.random.int(x), ET.random.int(y) ]; }
+	function path(o){
+		o=o?o:hsvg;
+		o.addpath({m:randomPos(),l:randomPos(), Z:''}, {'stroke':'#'+ET.random.Hex(6), 'fill':'#'+ET.random.Hex(6)});
+	}
+	function path2(o){
+		o=o?o:hsvg;
+		o.addpath({m:randomPos(),l:[randomPos(),randomPos(),randomPos(),randomPos()], Z:''}, {'stroke':'#'+ET.random.Hex(6), 'fill':'transparent'});
+	}
+	function circle(o){
+		var p=randomPos();
+		o=o?o:hsvg;
+		o.addcircle(p[0],p[1],ET.random.int(10)+5, {'stroke':'#'+ET.random.Hex(6), 'fill':'#'+ET.random.Hex(6)})
+	}
+	function rect(o){
+		var p=randomPos();
+		o=o?o:hsvg;
+		o.addrect(p[0],p[1],100,100, {'fill':'#'+ET.random.Hex(6),stroke:'#'+ET.random.Hex(6),'stroke-width':'5', 'fill-opacity':0.1,'stroke-opacity':0.9});
+	}
+
+</script>
